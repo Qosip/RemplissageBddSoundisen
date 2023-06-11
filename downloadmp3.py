@@ -34,7 +34,7 @@ def download_mp3(query, sousrep, nomalbumsingle):
     seconds = int(length % 60)
     strminutes = f"{minutes:02d}"
     strseconds = f"{seconds:02d}"
-    print("Durée : " + strminutes + " : " + strseconds)
+    print("Durée  : " + strminutes + " : " + strseconds)
 
 
     print("Téléchargement terminé. Fichier MP3 enregistré sous le nom :", mp3_filename)
