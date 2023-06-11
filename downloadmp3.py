@@ -42,6 +42,6 @@ def download_mp3(query, sousrep, nomalbumsingle):
     data = {
         "titre": query.replace("_", " "),
         "duree": strminutes + "." + strseconds,
-        "emplacement_morceau": "{}/".format(clean_string(sousrep))+"{}_{}.mp3".format(nomalbumsingle, clean_string(query))
+        "emplacement_morceau": "http://prj-web-cir2-grp-58/assets/music/{}/".format(clean_string(sousrep))+"{}_{}.mp3".format(nomalbumsingle, clean_string(query))
     }
     return data

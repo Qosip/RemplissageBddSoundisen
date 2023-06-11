@@ -42,7 +42,7 @@ if len(results['artists']['items']) > 0:
     # Récupérer le style musical principal (sinon enlever le [0])
     genres = artist_info['genres'][0]
 
-    fichier.write("INSERT INTO artiste (nom, prenom, nom_scene, date_naissance, date_mort, photo, type_artiste, style_musical) VALUES ("+artist_name+", "+artist_name+", "+artist_name+", '2000-01-01', NULL, "+profile_photo+", "+artist_type+", "+genres+");\nSET @id_artiste := LAST_INSERT_ID();\n")
+    fichier.write("INSERT INTO artiste (nom, prenom, nom_scene, date_naissance, date_mort, photo, type_artiste, style_musical) VALUES ("+ '"' +artist_name+ '"' +", "+ '"' +artist_name+ '"' +", "+ '"' +artist_name+ '"' +", '2000-01-01', NULL, "+ '"' +profile_photo+ '"' +", "+ '"' +artist_type+ '"' +", "+ '"' +genres+ '"' +");\nSET @id_artiste := LAST_INSERT_ID();\n")
 else:
     print('Artiste non trouvé')
 
@@ -69,8 +69,8 @@ def requestSingleAlbum(artist_id, type):
         release_date = album['release_date']
         print("Date de parution de l'album : ", release_date)
 
-        fichier.write("INSERT INTO album (titre, date_parution) VALUES ("+album_name+", "+release_date+");\nSET @id_album := LAST_INSERT_ID();\n")
-        fichier.write("INSERT INTO album (id_album, id_artiste) VALUES (@id_album, @id_artiste);\n")
+        fichier.write("INSERT INTO album (titre, date_parution) VALUES ("+ '"' +album_name+ '"' +", "+ '"' +release_date+ '"' +");\nSET @id_album := LAST_INSERT_ID();\n")
+        fichier.write("INSERT INTO a_publie (id_album, id_artiste) VALUES (@id_album, @id_artiste);\n")
         # Récupérer toutes les pistes de l'album
         tracks = sp.album_tracks(album_id)
         for track in tracks['items']:
@@ -79,14 +79,17 @@ def requestSingleAlbum(artist_id, type):
             print('   Track {}: {}'.format(track_number, track_name))
             query = "{}_{}".format(artist_name, track_name)
             data = download_mp3(query, artist_name, clean_string(album_name))
-            fichier.write("INSERT INTO morceau (titre, duree, date_parution, style_musical, emplacement, emplacement_morceau) VALUES ("+data["titre"]+", "+data["duree"]+", "+release_date+", "+genres+", "+album['images'][0]['url']+", "+data["emplacement_morceau"]+");\nSET @id_morceau := LAST_INSERT_ID();\n")
-            fichier.write("INSERT INTO album_contient_morceau (album_id, morceau_id) VALUES (@id_album, @id_morceau);\n")
+            fichier.write("INSERT INTO morceau (titre, duree, date_parution, style_musical, emplacement, emplacement_morceau) VALUES ("+ '"' +data["titre"]+ '"' +", "+ '"' +data["duree"]+ '"' +", "+ '"' +release_date+ '"' +", "+ '"' +genres+ '"' +", "+ '"' +album['images'][0]['url']+ '"' +", "+ '"' +data["emplacement_morceau"]+ '"' +");\nSET @id_morceau := LAST_INSERT_ID();\n")
+            fichier.write("INSERT INTO album_contient_morceaux (id_album, id_morceau) VALUES (@id_album, @id_morceau);\n")
 requestSingleAlbum(artist_id, 'album')
 requestSingleAlbum(artist_id, 'single')
 
 fichier.close()
 
 ''''
+nettoyer chaine nom titre musique pour pas avoir ce caractere ' ou ce caractere "
+
+
 -- Insérer l'artiste
 INSERT INTO artiste (nom, prenom, nom_scene, date_naissance, date_mort, photo, type_artiste, style_musical)
 VALUES ('John', 'Doe', 'John Doe', '1990-01-01', NULL, 'john_doe.jpg', 'Chanteur', 'Pop');
