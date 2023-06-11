@@ -19,7 +19,7 @@ results = sp.search(q=artist_name, type='artist', limit=1)
 if len(results['artists']['items']) > 0:
     artist = results['artists']['items'][0]
     artist_id = artist['id']
-    print('ID Spotify de l\'artiste {}: {}'.format(artist_name, artist_id))
+    print('ID Spotify de  l\'artiste {}: {}'.format(artist_name, artist_id))
 else:
     print('Artiste non trouvé')
 
