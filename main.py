@@ -87,7 +87,7 @@ requestSingleAlbum(artist_id, 'single')
 fichier.close()
 
 ''''
-nettoyer chaine nom titre musique pour pas avoir ce caractere ' ou ce caractere "
+nettoyer chaine nom titre musique pour pas avoir ce caractere ' ou ce caractere  "
 
 
 -- Insérer l'artiste
