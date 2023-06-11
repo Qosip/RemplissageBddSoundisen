@@ -3,7 +3,7 @@ from youtubesearchpython import VideosSearch
 import os
 from cleanstring import clean_string
 import shutil
-from mutagen.mp3 import MP3
+from pymediainfo import MediaInfo
 
 
 def download_mp3(query, sousrep, nomalbumsingle):
@@ -23,18 +23,18 @@ def download_mp3(query, sousrep, nomalbumsingle):
 
     # Renommer la vidéo téléchargée en utilisant le titre de la vidéo
     mp4_filename = yt.streams.filter(only_audio=True)[0].default_filename
-    mp3_filename = mp4_filename.replace(".mp4", ".mp3")
-    os.rename(mp4_filename, "{}_{}.mp3".format(nomalbumsingle, clean_string(query)))
-    shutil.move("{}_{}.mp3".format(nomalbumsingle, clean_string(query)), "{}/".format(clean_string(sousrep)))
 
-    audio = MP3("C:/Users/François/Downloads/Daft_Punk_Instant.mp3")
-    length = audio.info.length
-    print(length)
-    minutes = int(length // 60)
-    seconds = int(length % 60)
+    #On stocke dès maintenant la durée car ensuite elle est supprimée des données du fichier
+    clip_info = MediaInfo.parse(mp4_filename)
+    duration_ms = clip_info.tracks[0].duration / 1000
+    minutes = int(duration_ms // 60)
+    seconds = int(duration_ms % 60)
     strminutes = f"{minutes:02d}"
     strseconds = f"{seconds:02d}"
     print("Durée  : " + strminutes + " : " + strseconds)
 
+    mp3_filename = mp4_filename.replace(".mp4", ".mp3")
+    os.rename(mp4_filename, "{}_{}.mp3".format(nomalbumsingle, clean_string(query)))
+    shutil.move("{}_{}.mp3".format(nomalbumsingle, clean_string(query)), "{}/".format(clean_string(sousrep)))
 
     print("Téléchargement terminé. Fichier MP3 enregistré sous le nom :", mp3_filename)
