@@ -38,3 +38,10 @@ def download_mp3(query, sousrep, nomalbumsingle):
     shutil.move("{}_{}.mp3".format(nomalbumsingle, clean_string(query)), "{}/".format(clean_string(sousrep)))
 
     print("Téléchargement terminé. Fichier MP3 enregistré sous le nom :", mp3_filename)
+
+    data = {
+        "titre": query.replace("_", " "),
+        "duree": strminutes + "." + strseconds,
+        "emplacement_morceau": "{}/".format(clean_string(sousrep))+"{}_{}.mp3".format(nomalbumsingle, clean_string(query))
+    }
+    return data
