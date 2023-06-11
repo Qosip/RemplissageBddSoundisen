@@ -3,6 +3,8 @@ from youtubesearchpython import VideosSearch
 import os
 from cleanstring import clean_string
 import shutil
+from mutagen.mp3 import MP3
+
 
 def download_mp3(query, sousrep, nomalbumsingle):
     # Effectuer la recherche sur YouTube
@@ -24,5 +26,15 @@ def download_mp3(query, sousrep, nomalbumsingle):
     mp3_filename = mp4_filename.replace(".mp4", ".mp3")
     os.rename(mp4_filename, "{}_{}.mp3".format(nomalbumsingle, clean_string(query)))
     shutil.move("{}_{}.mp3".format(nomalbumsingle, clean_string(query)), "{}/".format(clean_string(sousrep)))
+
+    audio = MP3("C:/Users/François/Downloads/Daft_Punk_Instant.mp3")
+    length = audio.info.length
+    print(length)
+    minutes = int(length // 60)
+    seconds = int(length % 60)
+    strminutes = f"{minutes:02d}"
+    strseconds = f"{seconds:02d}"
+    print("Durée : " + strminutes + " : " + strseconds)
+
 
     print("Téléchargement terminé. Fichier MP3 enregistré sous le nom :", mp3_filename)
