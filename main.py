@@ -72,6 +72,7 @@ def requestSingleAlbum(artist_id, type, limit):
         # Récupérer toutes les pistes de l'album
         tracks = sp.album_tracks(album_id)
         for track in tracks['items']:
+            print("ooooooooooooooeeeeeeeeeeeee",track)
             track_name = track['name']
             track_number = track['track_number']
             print('   Track {}: {}'.format(track_number, track_name))
@@ -82,7 +83,7 @@ def requestSingleAlbum(artist_id, type, limit):
 
 
 requestSingleAlbum(artist_id, 'album', 5)
-requestSingleAlbum(artist_id, 'single', 5)
+requestSingleAlbum(artist_id, 'single', 50)
 
 fichier.close()
 
