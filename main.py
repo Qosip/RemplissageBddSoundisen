@@ -14,6 +14,7 @@ client_secret = key.spotify_secret_key
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
+
 def get_album_cover(name):
     results = sp.album(name)
     if results:
@@ -54,12 +55,9 @@ if not os.path.exists(reparti):
     print("Répertoire créé :", reparti)
 else:
     print("Le répertoire existe déjà :", reparti)
-#---------------------------------------------------
-client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-def requestSingleAlbum(artist_id, type):
-    albums = sp.artist_albums(artist_id, album_type=type, limit=50)
+def requestSingleAlbum(artist_id, type, limit):
+    albums = sp.artist_albums(artist_id, album_type=type, limit=limit)
     print(albums)
     for album in albums['items']:
         album_name = album['name']
@@ -81,8 +79,10 @@ def requestSingleAlbum(artist_id, type):
             data = download_mp3(query, artist_name, clean_string(album_name))
             fichier.write("INSERT INTO morceau (titre, duree, date_parution, style_musical, emplacement, emplacement_morceau) VALUES ("+ '"' +data["titre"]+ '"' +", "+ '"' +data["duree"]+ '"' +", "+ '"' +release_date+ '"' +", "+ '"' +genres+ '"' +", "+ '"' +album['images'][0]['url']+ '"' +", "+ '"' +data["emplacement_morceau"]+ '"' +");\nSET @id_morceau := LAST_INSERT_ID();\n")
             fichier.write("INSERT INTO album_contient_morceaux (id_album, id_morceau) VALUES (@id_album, @id_morceau);\n")
-requestSingleAlbum(artist_id, 'album')
-requestSingleAlbum(artist_id, 'single')
+
+
+requestSingleAlbum(artist_id, 'album', 5)
+requestSingleAlbum(artist_id, 'single', 5)
 
 fichier.close()
 
