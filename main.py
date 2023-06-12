@@ -78,7 +78,7 @@ def requestSingleAlbum(artist_id, type, limit):
             print('   Track {}: {}'.format(track_number, track_name))
             query = "{}_{}".format(artist_name, track_name)
             data = download_mp3(query, artist_name, clean_string(album_name))
-            fichier.write("INSERT INTO morceau (titre, duree, date_parution, style_musical, emplacement, emplacement_morceau) VALUES ("+ '"' +data["titre"]+ '"' +", "+ '"' +data["duree"]+ '"' +", "+ '"' +release_date+ '"' +", "+ '"' +genres+ '"' +", "+ '"' +album['images'][0]['url']+ '"' +", "+ '"' +data["emplacement_morceau"]+ '"' +");\nSET @id_morceau := LAST_INSERT_ID();\n")
+            fichier.write("INSERT INTO morceau (titre, duree, style_musical, emplacement_morceau) VALUES ("+ '"' +data["titre"]+ '"' +", "+ '"' +data["duree"]+ '"' +", "+ '"' +genres+ '"' +", "+ '"' +data["emplacement_morceau"]+ '"' +");\nSET @id_morceau := LAST_INSERT_ID();\n")
             fichier.write("INSERT INTO album_contient_morceaux (id_album, id_morceau) VALUES (@id_album, @id_morceau);\n")
 
 

@@ -39,8 +39,10 @@ def download_mp3(query, sousrep, nomalbumsingle):
 
     print("Téléchargement terminé. Fichier MP3 enregistré sous le nom :", mp3_filename)
 
+    query = query.replace(sousrep+"_", "")
+    query = query.replace("_", " ")
     data = {
-        "titre": query.replace("_", " "),
+        "titre": query,
         "duree": strminutes + "." + strseconds,
         "emplacement_morceau": "http://prj-web-cir2-grp-58/assets/music/{}/".format(clean_string(sousrep))+"{}_{}.mp3".format(nomalbumsingle, clean_string(query))
     }
