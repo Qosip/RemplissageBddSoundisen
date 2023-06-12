@@ -67,7 +67,7 @@ def requestSingleAlbum(artist_id, type, limit):
         release_date = album['release_date']
         print("Date de parution de l'album : ", release_date)
 
-        fichier.write("INSERT INTO album (titre, date_parution) VALUES ("+ '"' +album_name+ '"' +", "+ '"' +release_date+ '"' +");\nSET @id_album := LAST_INSERT_ID();\n")
+        fichier.write("INSERT INTO album (titre, date_parution, cover) VALUES ("+ '"' +album_name+ '"' +", "+ '"' +release_date+ '"'+", "+ '"' +cover_link+ '"' +");\nSET @id_album := LAST_INSERT_ID();\n")
         fichier.write("INSERT INTO a_publie (id_album, id_artiste) VALUES (@id_album, @id_artiste);\n")
         # Récupérer toutes les pistes de l'album
         tracks = sp.album_tracks(album_id)
